@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="1212.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dbclientapp.Controller.appointmentTable">
+   <children>
+      <Label layoutX="528.0" layoutY="14.0" text="Appointments">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <TableView fx:id="appointmentTable" layoutX="13.0" layoutY="72.0" prefHeight="574.0" prefWidth="1187.0">
+        <columns>
+          <TableColumn fx:id="appointmentID" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="appointmentTitle" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="appointmentDescription" prefWidth="187.0" text="Description" />
+            <TableColumn fx:id="appointmentLocation" prefWidth="123.0" text="Location" />
+            <TableColumn fx:id="appointmentContact" prefWidth="112.0" text="Contact" />
+            <TableColumn fx:id="appointmentType" prefWidth="138.0" text="Type" />
+            <TableColumn fx:id="appointmentStart" prefWidth="148.0" text="Start Date/Time" />
+            <TableColumn fx:id="appointmentEnd" minWidth="0.0" prefWidth="149.0" text="End Date/Time" />
+            <TableColumn fx:id="appointmentCustomerID" prefWidth="101.0" text="Customer ID" />
+            <TableColumn fx:id="appointmentUserID" minWidth="0.0" prefWidth="78.0" text="User ID" />
+        </columns>
+      </TableView>
+      <HBox alignment="CENTER" layoutX="751.0" layoutY="646.0" prefHeight="100.0" prefWidth="449.0" spacing="10.0">
+         <children>
+            <Button fx:id="addAppointmentBtn" mnemonicParsing="false" onAction="#addAppointmentOnClick" text="Add Appointment" />
+            <Button fx:id="updateAppointmentBtn" mnemonicParsing="false" onAction="#updateAppointmentOnClick" text="Update Appointment" />
+            <Button fx:id="deleteAppointmentBtn" mnemonicParsing="false" onAction="#deleteAppointmentOnClick" text="Delete Appointment" />
+            <Button fx:id="appointmentExitBtn" mnemonicParsing="false" onAction="#appointmentExitOnClick" text="Exit" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="772.0" layoutY="32.0" prefHeight="36.0" prefWidth="407.0" spacing="30.0">
+         <children>
+            <Label text="View By:" />
+            <RadioButton fx:id="viewAllBtn" mnemonicParsing="false" onAction="#viewAllOnClick" text="All">
+               <toggleGroup>
+                  <ToggleGroup fx:id="appointmentViewBy" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="viewWeekBtn" mnemonicParsing="false" onAction="#viewWeekOnClick" text="Current Week" toggleGroup="$appointmentViewBy" />
+            <RadioButton fx:id="viewMonthBtn" mnemonicParsing="false" onAction="#viewMonthOnClick" text="Current Month" toggleGroup="$appointmentViewBy" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="43.0" prefHeight="25.0" prefWidth="200.0" spacing="20.0">
+         <children>
+            <Label fx:id="timeZoneLabel" text="Current Time Zone:" />
+            <Text fx:id="userTimeZone" strokeType="OUTSIDE" strokeWidth="0.0" text="TIMEZONE" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
