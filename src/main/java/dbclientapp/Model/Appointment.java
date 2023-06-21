@@ -250,4 +250,7 @@ public class Appointment {
     public void setContact_ID(int Contact_ID) {
         this.Contact_ID = Contact_ID;
     }
-}
+
+
+    }
+

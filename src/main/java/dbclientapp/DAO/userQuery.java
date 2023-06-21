@@ -1,15 +1,17 @@
 package dbclientapp.DAO;
+
 import dbclientapp.Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+
 import java.io.IOException;
-import java.net.URL;
-import java.sql.*;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 public class userQuery {
@@ -30,11 +32,11 @@ public class userQuery {
             int User_ID = rs.getInt("User_ID");
             String User_Name = rs.getString("User_Name");
             String Password = rs.getString("Password");
-            Date Created_Date = rs.getDate("Created_Date");
+            LocalDateTime Create_Date = rs.getTimestamp("Create_Date").toLocalDateTime();
             String Created_By = rs.getString("Created_By");
             Timestamp Last_Update = rs.getTimestamp("Last_Update");
             String Last_Updated_By = rs.getString("Last_Updated_By");
-            User user = new User(User_ID, User_Name, Password, Created_Date, Created_By, Last_Update, Last_Updated_By);
+            User user = new User(User_ID, User_Name, Password, Create_Date, Created_By, Last_Update, Last_Updated_By);
             users.add(user);
         }
         return users;

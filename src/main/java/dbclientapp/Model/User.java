@@ -1,13 +1,13 @@
 package dbclientapp.Model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class User {
     private int User_ID;
     private String User_Name;
     private String Password;
-    private Date Created_Date;
+    private LocalDateTime Created_Date;
     private String Created_By;
     private Timestamp Last_Update;
     private String Last_Updated_By;
@@ -22,7 +22,7 @@ public class User {
      * @param Last_Update
      * @param Last_Updated_By
      */
-    public User(int User_ID, String User_Name, String Password, Date Created_Date, String Created_By, Timestamp Last_Update, String Last_Updated_By){
+    public User(int User_ID, String User_Name, String Password, LocalDateTime Created_Date, String Created_By, Timestamp Last_Update, String Last_Updated_By){
         this.User_ID = User_ID;
         this.User_Name = User_Name;
         this.Password = Password;
@@ -50,7 +50,7 @@ public class User {
      * Getter for the Created_Date
      * @return the Created_Date
      */
-    public Date getCreated_Date(){return Created_Date;}
+    public LocalDateTime getCreated_Date(){return Created_Date;}
     /**
      * Getter for the Created_By
      * @return the Created_By
@@ -87,7 +87,7 @@ public class User {
      * Setter for Created_Date
      * @param Created_Date the date to set
      */
-    public void setCreated_Date(Date Created_Date){this.Created_Date = Created_Date;}
+    public void setCreated_Date(LocalDateTime Created_Date){this.Created_Date = Created_Date;}
     /**
      * Setter for Created_By
      * @param Created_By the value for created by
@@ -103,4 +103,11 @@ public class User {
      * @param Last_Updated_By value for who last updated user
      */
     public void setLast_Updated_By(String Last_Updated_By){this.Last_Updated_By = Last_Updated_By;}
+    /**
+     * Overrides toString method to make results in combo boxes understandable by the application user
+     * @return User ID + Name
+     */
+    public String toString() {
+        return "#" + String.valueOf(User_ID) + " " + User_Name;
+    }
 }

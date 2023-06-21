@@ -190,4 +190,12 @@ public class Customer {
     public void setDivision_ID(int Division_ID) {
         this.Division_ID = Division_ID;
     }
+
+    /**
+     * Overrides toString method to make results in combo boxes understandable by the application user
+     * @return Customer ID + Name
+     */
+    public String toString() {
+        return "#" + String.valueOf(Customer_ID) + " " + Customer_Name;
+    }
 }

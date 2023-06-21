@@ -52,7 +52,7 @@
             <RadioButton fx:id="viewMonthBtn" mnemonicParsing="false" onAction="#viewMonthOnClick" text="Current Month" toggleGroup="$appointmentViewBy" />
          </children>
       </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="43.0" prefHeight="25.0" prefWidth="200.0" spacing="20.0">
+      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="43.0" prefHeight="25.0" prefWidth="274.0" spacing="50.0">
          <children>
             <Label fx:id="timeZoneLabel" text="Current Time Zone:" />
             <Text fx:id="userTimeZone" strokeType="OUTSIDE" strokeWidth="0.0" text="TIMEZONE" />

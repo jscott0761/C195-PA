@@ -1,12 +1,9 @@
 package dbclientapp.Controller;
 
-import dbclientapp.DAO.JDBC;
-import dbclientapp.DAO.appointmentQuery;
 import dbclientapp.DAO.customerQuery;
 import dbclientapp.Model.Customer;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,10 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -131,11 +126,21 @@ public class customerTable implements Initializable {
         Optional<ButtonType> confirmation = alert.showAndWait();
         if (confirmation.isPresent() && confirmation.get() == ButtonType.OK) {
             dbclientapp.DAO.customerQuery.deleteCustomer(customerTable.getSelectionModel().getSelectedItem().getCustomer_ID());
+            Alert deletedAlert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SUCCESS");
+            alert.setContentText("CUSTOMER #" + customerTable.getSelectionModel().getSelectedItem().getCustomer_ID() + " HAS BEEN DELETED");
+            alert.showAndWait();
             customerTable.refresh();
         }
         ObservableList<Customer> customers = customerQuery.getAllCustomers();
         customerTable.setItems(customers);
     }
+
+    /**
+     * Loads the update customer form when user has selected a customer to update
+     * @param event Update Customer button clicked
+     * @throws IOException
+     */
     @FXML
     void updateCustomerOnClick(ActionEvent event) throws IOException {
         customerToUpdate = customerTable.getSelectionModel().getSelectedItem();

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dbclientapp.Controller.updateAppointment">
    <children>
       <Label layoutX="183.0" layoutY="14.0" text="Update Appointment">
          <font>
@@ -109,8 +109,8 @@
       </VBox>
       <HBox alignment="CENTER" layoutX="392.0" layoutY="498.0" prefHeight="36.0" prefWidth="200.0" spacing="30.0">
          <children>
-            <Button mnemonicParsing="false" text="Save Appointment" />
-            <Button mnemonicParsing="false" text="Exit" />
+            <Button fx:id="updateAppointmentExitBtn" mnemonicParsing="false" onAction="#updateAppointmentExitOnClick" text="Exit" />
+            <Button fx:id="updateAppointmentSaveBtn" mnemonicParsing="false" onAction="#updateAppointmentSaveOnClick" text="Save Appointment" />
          </children>
       </HBox>
    </children>

@@ -1,5 +1,6 @@
 package dbclientapp.Controller;
-import dbclientapp.DAO.*;
+
+import dbclientapp.DAO.userQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

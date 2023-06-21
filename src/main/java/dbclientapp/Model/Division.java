@@ -1,7 +1,5 @@
 package dbclientapp.Model;
 
-import java.net.CacheResponse;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -154,6 +152,10 @@ public class Division {
      * @return Division Name
      */
 
+    /**
+     * Overrides toString method to make results in combo boxes understandable by the application user
+     * @return Division Name
+     */
     @Override
     public String toString() {
         return (Division);

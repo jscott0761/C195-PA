@@ -7,11 +7,12 @@ public class Contact {
 
     /**
      * Constructor for Contact Class
+     *
      * @param Contact_ID
      * @param Contact_Name
      * @param Email
      */
-    public Contact(int Contact_ID, String Contact_Name, String Email){
+    public Contact(int Contact_ID, String Contact_Name, String Email) {
         this.Contact_ID = Contact_ID;
         this.Contact_Name = Contact_Name;
         this.Email = Email;
@@ -19,6 +20,7 @@ public class Contact {
 
     /**
      * Getter for Contact ID
+     *
      * @return Contact ID
      */
     public int getContact_ID() {
@@ -27,6 +29,7 @@ public class Contact {
 
     /**
      * Getter for Contact Name
+     *
      * @return Contact Name
      */
     public String getContact_Name() {
@@ -35,6 +38,7 @@ public class Contact {
 
     /**
      * Getter for Email
+     *
      * @return Email
      */
     public String getEmail() {
@@ -43,6 +47,7 @@ public class Contact {
 
     /**
      * Setter for Contact ID
+     *
      * @param Contact_ID Contact ID to be set
      */
     public void setContact_ID(int Contact_ID) {
@@ -51,6 +56,7 @@ public class Contact {
 
     /**
      * Setter for Contact Name
+     *
      * @param Contact_Name Contact Name to be set
      */
     public void setContact_Name(String Contact_Name) {
@@ -59,9 +65,18 @@ public class Contact {
 
     /**
      * Setter for email
+     *
      * @param Email email to be set
      */
     public void setEmail(String Email) {
         this.Email = Email;
+    }
+    /**
+     * Overrides toString method to make results in combo boxes understandable by the application user
+     * @return Contact Name
+     */
+    @Override
+    public String toString() {
+        return (Contact_Name);
     }
 }

@@ -1,6 +1,8 @@
 package dbclientapp.Controller;
+
 import dbclientapp.DAO.appointmentQuery;
 import dbclientapp.Model.Appointment;
+import dbclientapp.Model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,11 +15,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -64,14 +66,38 @@ public class appointmentTable implements Initializable {
     private RadioButton viewMonthBtn;
     @FXML
     private RadioButton viewWeekBtn;
+    /**
+     * Appointment to update
+     */
+    public static Appointment appointmentToUpdate;
+
+    /**
+     * Gets appointment to update
+     * @return appointment to update
+     */
+    public static Appointment getAppointmentToUpdate(){return appointmentToUpdate;}
     Stage stage;
     Parent scene;
 
+    /**
+     * Loads form to add a new appointment
+     * @param event Add Appointment Button Clicked
+     * @throws IOException
+     */
     @FXML
-    void addAppointmentOnClick(ActionEvent event) {
-
+    void addAppointmentOnClick(ActionEvent event) throws IOException {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View/addAppointment.fxml"));
+        stage.setTitle("Add Appointment");
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
+    /**
+     * Returns user to main menu upon confirmation
+     * @param event Exit button clicked
+     * @throws IOException
+     */
     @FXML
     void appointmentExitOnClick(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -87,29 +113,90 @@ public class appointmentTable implements Initializable {
         }
     }
 
+    /**
+     * Deletes selected appointment from database upon confirmation
+     * @param event Delete button pressed
+     * @throws SQLException
+     */
     @FXML
-    void deleteAppointmentOnClick(ActionEvent event) {
-
+    void deleteAppointmentOnClick(ActionEvent event) throws SQLException {
+        Appointment appointmentToDelete = appointmentTable.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("DELETE APPOINTMENT");
+        alert.setContentText("ARE YOU SURE YOU DELETE THIS APPOINTMENT?");
+        Optional<ButtonType> confirmation = alert.showAndWait();
+        if (confirmation.isPresent() && confirmation.get() == ButtonType.OK) {
+            dbclientapp.DAO.appointmentQuery.deleteAppointment(appointmentTable.getSelectionModel().getSelectedItem().getAppointment_ID());
+            Alert deletedAlert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SUCCESS");
+            alert.setContentText("APPOINTMENT ID:" + " " + appointmentToDelete.getAppointment_ID() + "   " + "TYPE: " + appointmentToDelete.getType() + " " + "HAS BEEN DELETED");
+            alert.showAndWait();
+            appointmentTable.refresh();
+        }
+        ObservableList<Appointment> appointments = appointmentQuery.getAllAppointments();
+        appointmentTable.setItems(appointments);
+    }
+    /**
+     * Loads the update appointment form when user has selected a customer to update
+     * @param event Update appointment Button Clicked
+     * @throws IOException
+     */
+    @FXML
+    void updateAppointmentOnClick(ActionEvent event) throws IOException {
+        appointmentToUpdate = appointmentTable.getSelectionModel().getSelectedItem();
+        if (appointmentToUpdate == null) {
+            dbclientapp.Helper.helperFunctions.errorAlert("SELECT AN APPOINTMENT", "YOU MUST SELECT AN APPOINTMENT TO UPDATE");
+        } else {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/View/updateAppointment.fxml"));
+            stage.setTitle("Update Appointment");
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
     }
 
     @FXML
-    void updateAppointmentOnClick(ActionEvent event) {
-
-    }
-
-    @FXML
-    void viewAllOnClick(ActionEvent event) {
-
+    void viewAllOnClick(ActionEvent event) throws SQLException {
+        appointmentTable.setItems(appointmentQuery.getAllAppointments());
     }
 
     @FXML
     void viewMonthOnClick(ActionEvent event) {
-    ObservableList<Appointment> appointmentsByMonth = FXCollections.observableArrayList();
+        try {
+            if (appointmentTable.getItems().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("NO APPOINTMENTS FOUND");
+                alert.setContentText("NO APPOINTMENTS HAVE BEEN FOUND FOR THE CURRENT MONTH");
+                alert.showAndWait();
+            }
+            else {
+                appointmentQuery.viewByWeek();
+                appointmentTable.setItems(appointmentQuery.viewByWeek());
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @FXML
-    void viewWeekOnClick(ActionEvent event) {
 
+    @FXML
+    void viewWeekOnClick(ActionEvent event) throws SQLException {
+        try {
+            if (appointmentTable.getItems().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("NO APPOINTMENTS FOUND");
+                alert.setContentText("NO APPOINTMENTS HAVE BEEN FOUND FOR THE CURRENT WEEK");
+                alert.showAndWait();
+            }
+            else {
+                appointmentQuery.viewByWeek();
+                appointmentTable.setItems(appointmentQuery.viewByWeek());
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -131,6 +218,8 @@ public class appointmentTable implements Initializable {
             appointmentCustomerID.setCellValueFactory(new PropertyValueFactory<>("Customer_ID"));
             appointmentUserID.setCellValueFactory(new PropertyValueFactory<>("User_ID"));
             appointmentTable.setItems(appointmentQuery.getAllAppointments());
+            ZoneId zoneId = ZoneId.systemDefault();
+            userTimeZone.setText(String.valueOf(zoneId));
             viewAllBtn.setSelected(true);
         } catch (SQLException e) {
             throw new RuntimeException(e);

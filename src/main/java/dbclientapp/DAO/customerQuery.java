@@ -4,12 +4,16 @@ import dbclientapp.Model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class customerQuery {
     /**
      * Builds an observable list of all Customers
+     *
      * @return all Customers
      * @throws SQLException
      */
@@ -34,21 +38,32 @@ public class customerQuery {
         }
         return customers;
     }
-public static void deleteCustomer(int Customer_ID){
+
+    /**
+     * Deletes a selected customer and all their appointments from the database
+     *
+     * @param Customer_ID
+     */
+    public static void deleteCustomer(int Customer_ID) {
         try {
+            String deleteCustomerAppointmentSql = "DELETE from appointments WHERE Customer_ID = ?";
+            PreparedStatement ps2 = JDBC.connection.prepareStatement(deleteCustomerAppointmentSql);
+            ps2.setInt(1, Customer_ID);
+            ps2.executeUpdate();
+
             String sql = "DELETE from customers WHERE Customer_ID = ?";
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
             ps.setInt(1, (Customer_ID));
             ps.executeUpdate();
 
-            String deleteCustomerAppointmentSql = "DELETE from appointments WHERE Customer_ID = ?";
-            PreparedStatement ps2 = JDBC.connection.prepareStatement(deleteCustomerAppointmentSql);
-            ps2.setInt(1, Customer_ID);
-            ps.executeUpdate();
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);
 
         }
+
+    }
+
 }
-}
+

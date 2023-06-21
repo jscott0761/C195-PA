@@ -3,6 +3,7 @@ package dbclientapp.DAO;
 import dbclientapp.Model.Division;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +11,11 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class divisionQuery {
+    /**
+     * Creates an Observable list of all divisions
+     * @return all divisions
+     * @throws SQLException
+     */
     public static ObservableList<Division> getAllDivisions() throws SQLException {
         ObservableList<Division> divisions = FXCollections.observableArrayList();
         String sql = "SELECT * from first_level_divisions";
