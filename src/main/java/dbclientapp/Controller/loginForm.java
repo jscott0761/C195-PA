@@ -1,6 +1,10 @@
 package dbclientapp.Controller;
 
+import dbclientapp.DAO.appointmentQuery;
 import dbclientapp.DAO.userQuery;
+import dbclientapp.Model.Appointment;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,10 +13,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -77,10 +85,40 @@ public class loginForm implements Initializable{
             stage.setTitle("Main Menu");
             stage.setScene(new Scene(scene));
             stage.show();
+            appointmentInFifteen();
         } else if (userID < 0) {
             dbclientapp.Helper.helperFunctions.errorAlert(resourceBundle.getString("errorHeader"), resourceBundle.getString("errorMessage"));
         }
     }
+
+    /**
+     * Method to find appointments within 15 minutes of current local time and add them to an observable list, then display an alert if there is or isnt an appointment
+     * @throws SQLException
+     */
+    public static void appointmentInFifteen() throws SQLException {
+        ObservableList<Appointment> getAllAppointments = appointmentQuery.getAllAppointments();
+        ObservableList<Appointment> appointmentsIn15 = FXCollections.observableArrayList();
+        LocalDateTime currentTime = LocalDateTime.now();
+        for (Appointment a : getAllAppointments){
+            LocalDateTime appointmentStart = a.getStart();
+            long timeDifference = ChronoUnit.MINUTES.between(currentTime,appointmentStart);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+            if (timeDifference >= 0 && timeDifference <= 15) {
+                appointmentsIn15.add(a);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("UPCOMING APPOINTMENTS");
+                alert.setContentText("APPOINTMENT ID: " + a.getAppointment_ID() + " " + "IS WITHIN 15 MINUTES AT " + " " + a.getStart().format(formatter) + " " + "LOCAL TIME.");
+                Optional<ButtonType> confirmation = alert.showAndWait();
+            }
+            }
+            if(appointmentsIn15.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("NO UPCOMING APPOINTMENTS");
+            alert.setContentText("NO UPCOMING APPOINTMENTS IN NEXT 15 MINUTES");
+            Optional<ButtonType> confirmation = alert.showAndWait();
+        }
+        }
+
 
     /**
      * Initializes the form, sets language to match default locale of user and displays users ZoneID in a string

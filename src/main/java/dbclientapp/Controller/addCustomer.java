@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -79,33 +80,48 @@ public class addCustomer implements Initializable {
      */
     @FXML
     void saveCustomerOnClick(ActionEvent event) {
-        try{
-            String sql = "INSERT INTO customers VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement ps = JDBC.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, null);
-            ps.setString(2, addCustomerName.getText());
-            ps.setString(3, addCustomerAddress.getText());
-            ps.setString(4, addCustomerPostalCode.getText());
-            ps.setString(5, addCustomerPhone.getText());
-            ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setString(7, "test");
-            ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setString(9, "test");
-            ps.setInt(10, addCustomerDivision.getValue().getDivision_ID());
-            ps.execute();
+        if (addCustomerName.getText().isEmpty()) {
+            dbclientapp.Helper.helperFunctions.errorAlert("NAME EMPTY", "NAME CAN NOT BE LEFT EMPTY");
+        }
+        if (addCustomerAddress.getText().isEmpty()) {
+            dbclientapp.Helper.helperFunctions.errorAlert("ADDRESS EMPTY", "ADDRESS CAN NOT BE LEFT EMPTY");
+        }
+        if (addCustomerPostalCode.getText().isEmpty()) {
+            dbclientapp.Helper.helperFunctions.errorAlert("POSTAL CODE EMPTY", "POSTAL CODE CAN NOT BE LEFT EMPTY");
+        }
+        if (addCustomerPhone.getText().isEmpty()) {
+            dbclientapp.Helper.helperFunctions.errorAlert("PHONE NUMBER EMPTY", "PHONE NUMBER CAN NOT BE LEFT EMPTY");
+        }
+        else if (!addCustomerName.getText().isBlank() && !addCustomerAddress.getText().isBlank() && !addCustomerPostalCode.getText().isBlank() && !addCustomerPhone.getText().isBlank()) {
+            try {
+                String sql = "INSERT INTO customers VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement ps = JDBC.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, null);
+                ps.setString(2, addCustomerName.getText());
+                ps.setString(3, addCustomerAddress.getText());
+                ps.setString(4, addCustomerPostalCode.getText());
+                ps.setString(5, addCustomerPhone.getText());
+                ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
+                ps.setString(7, "test");
+                ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+                ps.setString(9, "test");
+                ps.setInt(10, addCustomerDivision.getValue().getDivision_ID());
+                ps.execute();
 
-            ResultSet rs = ps.getGeneratedKeys();
-            rs.next();
-            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("/View/customerTable.fxml"));
-            stage.setTitle("Customer Table");
-            stage.setScene(new Scene(scene));
-            stage.show();
+                ResultSet rs = ps.getGeneratedKeys();
+                rs.next();
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/View/customerTable.fxml"));
+                stage.setTitle("Customer Table");
+                stage.setScene(new Scene(scene));
+                stage.show();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
+
 
 
     /**

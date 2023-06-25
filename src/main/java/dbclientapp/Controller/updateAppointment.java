@@ -1,7 +1,10 @@
 package dbclientapp.Controller;
 
 import dbclientapp.DAO.*;
-import dbclientapp.Model.*;
+import dbclientapp.Model.Appointment;
+import dbclientapp.Model.Contact;
+import dbclientapp.Model.Customer;
+import dbclientapp.Model.User;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,9 +21,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -98,7 +101,7 @@ public class updateAppointment implements Initializable {
     }
 
     @FXML
-    void updateAppointmentSaveOnClick(ActionEvent event) {
+    void updateAppointmentSaveOnClick(ActionEvent event) throws SQLException {
         LocalDate startDate = updateAppointmentStartDate.getValue();
         String startTimeString = updateAppointmentStartTime.getText();
         LocalTime startTime = LocalTime.parse(startTimeString);
@@ -108,6 +111,52 @@ public class updateAppointment implements Initializable {
         String endTimeString = updateAppointmentEndTime.getText();
         LocalTime endTime = LocalTime.parse(endTimeString);
         LocalDateTime appointmentEnd = LocalDateTime.of(endDate, endTime);
+
+        ZoneId est = ZoneId.of("America/New_York");
+        LocalTime openEST = LocalTime.of(8, 0);
+        LocalTime closeEST = LocalTime.of(22, 0);
+        ZonedDateTime appointmentStartZDT = ZonedDateTime.of(appointmentStart, ZoneId.systemDefault());
+        ZonedDateTime appointmentsEndZDT = ZonedDateTime.of(appointmentEnd, ZoneId.systemDefault());
+        ZonedDateTime startEST = appointmentStartZDT.withZoneSameInstant(est);
+        ZonedDateTime endEST = appointmentsEndZDT.withZoneSameInstant(est);
+        LocalTime startTimeEST = startEST.toLocalTime();
+        LocalTime endTimeEST = endEST.toLocalTime();
+
+        Calendar appointmentDateCalender = Calendar.getInstance();
+        ZonedDateTime appointmentDateZDT = appointmentStart.atZone(ZoneId.systemDefault());
+        Date appointmentStartDate = Date.from(Instant.from(appointmentDateZDT));
+        appointmentDateCalender.setTime(appointmentStartDate);
+        int day = appointmentDateCalender.get(Calendar.DAY_OF_WEEK);
+
+        if (startTimeEST.isBefore(openEST) || startTimeEST.isAfter(closeEST) || endTimeEST.isBefore(openEST) || endTimeEST.isAfter(closeEST)) {
+            dbclientapp.Helper.helperFunctions.errorAlert("INVALID TIME", "APPOINTMENT IS OUTSIDE OF BUSINESS HOURS");
+            return;
+        }
+        if (!(day >= Calendar.MONDAY && day <= Calendar.FRIDAY)) {
+            dbclientapp.Helper.helperFunctions.errorAlert("INVALID DATE", "APPOINTMENT IS OUTSIDE BUSINESS WEEK");
+            return;
+        }
+        for (Appointment a : appointmentQuery.getAllAppointments()) {
+            LocalDateTime appointmentStartTime = a.getStart();
+            LocalDateTime appointmentEndTime = a.getEnd();
+            if (a.getCustomer_ID() == updateAppointmentCustomerID.getValue().getCustomer_ID() && (appointmentToUpdate.getAppointment_ID() != a.getAppointment_ID())){
+                if (appointmentStart.isBefore(appointmentStartTime) && appointmentEnd.isAfter(appointmentEndTime)){
+                    dbclientapp.Helper.helperFunctions.errorAlert("OVERLAPPING APPOINTMENT", "THIS APPOINTMENT OVERLAPS A PREEXISTING APPOINTMENT");
+                    return;
+                }
+                if ((appointmentStart.isAfter(appointmentStartTime) || appointmentStart.isEqual(appointmentStartTime)) && appointmentStart.isBefore(appointmentEndTime)) {
+                    dbclientapp.Helper.helperFunctions.errorAlert("OVERLAPPING START TIME", "THIS APPOINTMENT'S START TIME OVERLAPS A PREEXISTING APPOINTMENT");
+                    return;
+                }
+                if ((appointmentEnd.isBefore(appointmentEndTime) || appointmentEnd.isEqual(appointmentEndTime)) && appointmentEnd.isAfter(appointmentStartTime)){
+                    dbclientapp.Helper.helperFunctions.errorAlert("OVERLAPPING END TIME", "THIS APPOINTMENT'S END TIME OVERLAPS A PREEXISTING APPOINTMENT");
+                    return;
+                }
+            }
+        }
+        if(appointmentEnd.isBefore(appointmentStart) || appointmentStart.isAfter(appointmentEnd)){
+            dbclientapp.Helper.helperFunctions.errorAlert("INVALID TIME", "APPOINTMENT CAN NOT END BEFORE START TIME OR START AFTER END TIME");
+        }
         try {
             String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
             PreparedStatement ps = JDBC.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

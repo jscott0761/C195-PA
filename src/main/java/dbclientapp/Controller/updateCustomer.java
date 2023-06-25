@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -101,32 +102,46 @@ public class updateCustomer implements Initializable {
      */
     @FXML
     void saveChangesOnClick(ActionEvent event) {
-        try {
-            String sql = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
-            PreparedStatement ps = JDBC.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, updateCustomerName.getText());
-            ps.setString(2, updateCustomerAddress.getText());
-            ps.setString(3, updateCustomerPostalCode.getText());
-            ps.setString(4, updateCustomerPhone.getText());
-            ps.setTimestamp(5, Timestamp.valueOf(customerToUpdate.getCreate_Date()));
-            ps.setString(6, customerToUpdate.getCreated_By());
-            ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setString(8, "test");
-            ps.setInt(9, updateCustomerDivision.getValue().getDivision_ID());
-            ps.setString(10, updateCustomerID.getText());
-            ps.execute();
-
-            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("/View/customerTable.fxml"));
-            stage.setTitle("Customer Table");
-            stage.setScene(new Scene(scene));
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (updateCustomerName.getText().isEmpty()) {
+            dbclientapp.Helper.helperFunctions.errorAlert("NAME EMPTY", "NAME CAN NOT BE LEFT EMPTY");
         }
-
+        if (updateCustomerAddress.getText().isEmpty()) {
+            dbclientapp.Helper.helperFunctions.errorAlert("ADDRESS EMPTY", "ADDRESS CAN NOT BE LEFT EMPTY");
         }
+        if (updateCustomerPostalCode.getText().isEmpty()) {
+            dbclientapp.Helper.helperFunctions.errorAlert("POSTAL CODE EMPTY", "POSTAL CODE CAN NOT BE LEFT EMPTY");
+        }
+        if (updateCustomerPhone.getText().isEmpty()) {
+            dbclientapp.Helper.helperFunctions.errorAlert("PHONE NUMBER EMPTY", "PHONE NUMBER CAN NOT BE LEFT EMPTY");
+        }
+        else if (!updateCustomerName.getText().isBlank() && !updateCustomerAddress.getText().isBlank() && !updateCustomerPostalCode.getText().isBlank() && !updateCustomerPhone.getText().isBlank()) {
+            try {
+                String sql = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
+                PreparedStatement ps = JDBC.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, updateCustomerName.getText());
+                ps.setString(2, updateCustomerAddress.getText());
+                ps.setString(3, updateCustomerPostalCode.getText());
+                ps.setString(4, updateCustomerPhone.getText());
+                ps.setTimestamp(5, Timestamp.valueOf(customerToUpdate.getCreate_Date()));
+                ps.setString(6, customerToUpdate.getCreated_By());
+                ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+                ps.setString(8, "test");
+                ps.setInt(9, updateCustomerDivision.getValue().getDivision_ID());
+                ps.setString(10, updateCustomerID.getText());
+                ps.execute();
+
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/View/customerTable.fxml"));
+                stage.setTitle("Customer Table");
+                stage.setScene(new Scene(scene));
+                stage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
         /**
          * Returns customer to customer table menu upon confirmation
          * @param event Exit button pressed
