@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class divisionQuery {
     /**
      * Creates an Observable list of all divisions
+     *
      * @return all divisions
      * @throws SQLException
      */
@@ -37,6 +38,7 @@ public class divisionQuery {
 
     /**
      * Creates an Observable list of all divisions within the US
+     *
      * @return US Divisions
      * @throws SQLException
      */
@@ -58,8 +60,10 @@ public class divisionQuery {
         }
         return USDivisions;
     }
+
     /**
      * Creates an Observable list of all divisions within the UK
+     *
      * @return UK Divisions
      * @throws SQLException
      */
@@ -81,8 +85,10 @@ public class divisionQuery {
         }
         return UKDivisions;
     }
+
     /**
      * Creates an Observable list of all divisions within Canada
+     *
      * @return Canada Divisions
      * @throws SQLException
      */
@@ -105,6 +111,22 @@ public class divisionQuery {
         return CanadaDivisions;
     }
 
+    /**
+     * Takes the division id and returns the country name associated with that division ID
+     * @param Division_ID
+     * @return division ID name, otherwise null
+     */
+    public static String divisionIDtoCountry(int Division_ID) {
+        if (Division_ID >= 1 && Division_ID <= 54) {
+            return "U.S";
+        }
+        if (Division_ID >= 60 && Division_ID <= 72) {
+            return "Canada";
+        }
+        if (Division_ID >= 101 && Division_ID <= 104) {
+            return "U.K.";
+        }
+        else return null;
+        }
 
 }
-

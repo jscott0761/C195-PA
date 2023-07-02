@@ -11,6 +11,7 @@ module dbclientapp.c195_pa {
     opens dbclientapp.Controller to javafx.fxml;
     exports dbclientapp.Model;
     opens dbclientapp.Model to javafx.fxml;
+    requires javafx.base;
 
 
 }

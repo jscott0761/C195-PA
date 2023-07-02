@@ -59,6 +59,11 @@ public class appointmentQuery {
         }
     }
 
+    /**
+     * Runs a sql query to compile appointments that take place within the current week based of current date, then add these appointments to an observable list
+     * @return appointments within current week
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> viewByWeek() throws SQLException {
         ObservableList<Appointment> appointmentsByWeek = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments WHERE yearweek(start)=yearweek(now())";
@@ -85,6 +90,11 @@ public class appointmentQuery {
 
         return appointmentsByWeek;
     }
+    /**
+     * Runs a sql query to compile appointments that take place within the current month based of current date, then add these appointments to an observable list
+     * @return appointments within current month
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> viewByMonth() throws SQLException {
         ObservableList<Appointment> appointmentsByMonth = FXCollections.observableArrayList();
         String sql = "SELECT * FROM appointments WHERE month(start) = month(current_date()) AND YEAR(start) = YEAR(current_date());";

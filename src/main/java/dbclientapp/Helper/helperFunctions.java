@@ -15,7 +15,4 @@ public class helperFunctions {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    public static void divisionIDtoName(Integer Division_ID, String Division_Name){
-
-    }
 }

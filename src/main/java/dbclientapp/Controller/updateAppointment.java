@@ -84,7 +84,11 @@ public class updateAppointment implements Initializable {
     Parent scene;
 
 
-
+    /**
+     * Returns user to main menu upon confirmation
+     * @param event Exit button pressed
+     * @throws IOException
+     */
     @FXML
     void updateAppointmentExitOnClick(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -99,7 +103,13 @@ public class updateAppointment implements Initializable {
             stage.show();
         }
     }
-
+    /**
+     * Inserts updated appointment values into appointments table and returns user to appointment tables after validating inputs
+     * Conjugates date and time fields to update start/end
+     * Checks overlapping appointments
+     * Ensures appointments start before end and end after start
+     * @param event Save button pressed
+     */
     @FXML
     void updateAppointmentSaveOnClick(ActionEvent event) throws SQLException {
         LocalDate startDate = updateAppointmentStartDate.getValue();
@@ -236,7 +246,6 @@ public class updateAppointment implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
 

@@ -2,6 +2,7 @@ package dbclientapp.Controller;
 
 import dbclientapp.DAO.appointmentQuery;
 import dbclientapp.DAO.userQuery;
+import dbclientapp.Helper.helperFunctions;
 import dbclientapp.Model.Appointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,9 +15,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -74,12 +78,15 @@ public class loginForm implements Initializable{
      */
     @FXML
     void loginOnClick(ActionEvent event) throws SQLException, IOException {
+        FileWriter filename = new FileWriter("src/main/java/dbclientapp/loginLog.", true);
+        PrintWriter outputFile = new PrintWriter(filename);
         ResourceBundle resourceBundle = ResourceBundle.getBundle("loginForm", Locale.getDefault());
         String username = loginUserName.getText();
         String password = loginPassword.getText();
         int userID = userQuery.validate(username, password);
 
         if (userID > 0) {
+            outputFile.println("Successful Login By: " + username + " " + "at time: " + Timestamp.valueOf(LocalDateTime.now()));
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("/View/mainMenu.fxml"));
             stage.setTitle("Main Menu");
@@ -87,8 +94,10 @@ public class loginForm implements Initializable{
             stage.show();
             appointmentInFifteen();
         } else if (userID < 0) {
-            dbclientapp.Helper.helperFunctions.errorAlert(resourceBundle.getString("errorHeader"), resourceBundle.getString("errorMessage"));
+            helperFunctions.errorAlert(resourceBundle.getString("errorHeader"), resourceBundle.getString("errorMessage"));
+            outputFile.print("Unsuccessful Login By: "  + username + " " + "at time: " + Timestamp.valueOf(LocalDateTime.now()));
         }
+        outputFile.close();
     }
 
     /**
@@ -141,5 +150,6 @@ public class loginForm implements Initializable{
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 }

@@ -113,7 +113,9 @@ public class appointmentTable implements Initializable {
     }
 
     /**
+     * LAMBDA II
      * Deletes selected appointment from database upon confirmation
+     * Lambda Justification: Utilizing a lambda for the button confirmation and deletion allowed me to collapse my code to be more succinct, due to the simplicity the code is also easier to interpret
      * @param event Delete button pressed
      * @throws SQLException
      */
@@ -124,17 +126,20 @@ public class appointmentTable implements Initializable {
         alert.setTitle("DELETE APPOINTMENT");
         alert.setContentText("ARE YOU SURE YOU DELETE THIS APPOINTMENT?");
         Optional<ButtonType> confirmation = alert.showAndWait();
-        if (confirmation.isPresent() && confirmation.get() == ButtonType.OK) {
-            dbclientapp.DAO.appointmentQuery.deleteAppointment(appointmentTable.getSelectionModel().getSelectedItem().getAppointment_ID());
+        confirmation.ifPresent(confirm -> {
+            if (confirm == ButtonType.OK){
+                dbclientapp.DAO.appointmentQuery.deleteAppointment(appointmentTable.getSelectionModel().getSelectedItem().getAppointment_ID());
+            }
+        });
             Alert deletedAlert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("SUCCESS");
-            alert.setContentText("APPOINTMENT ID:" + " " + appointmentToDelete.getAppointment_ID() + "   " + "TYPE: " + appointmentToDelete.getType() + " " + "HAS BEEN DELETED");
-            alert.showAndWait();
+            deletedAlert.setTitle("SUCCESS");
+            deletedAlert.setContentText("APPOINTMENT ID:" + " " + appointmentToDelete.getAppointment_ID() + "   " + "TYPE: " + appointmentToDelete.getType() + " " + "HAS BEEN DELETED");
+            deletedAlert.showAndWait();
             appointmentTable.refresh();
+            ObservableList<Appointment> appointments = appointmentQuery.getAllAppointments();
+            appointmentTable.setItems(appointments);
         }
-        ObservableList<Appointment> appointments = appointmentQuery.getAllAppointments();
-        appointmentTable.setItems(appointments);
-    }
+
     /**
      * Loads the update appointment form when user has selected a customer to update
      * @param event Update appointment Button Clicked
@@ -154,11 +159,20 @@ public class appointmentTable implements Initializable {
         }
     }
 
+    /**
+     * Sets table view to all appointments
+     * @param event All Appointments radio button selected
+     * @throws SQLException
+     */
     @FXML
     void viewAllOnClick(ActionEvent event) throws SQLException {
         appointmentTable.setItems(appointmentQuery.getAllAppointments());
     }
 
+    /**
+     * Set table view to appointments in the current month, if there are no applicable appointments an error message is displayed
+     * @param event View by month radio button is clicked
+     */
     @FXML
     void viewMonthOnClick(ActionEvent event) {
         try {
@@ -169,8 +183,8 @@ public class appointmentTable implements Initializable {
                 alert.showAndWait();
             }
             else {
-                appointmentQuery.viewByWeek();
-                appointmentTable.setItems(appointmentQuery.viewByWeek());
+                appointmentQuery.viewByMonth();
+                appointmentTable.setItems(appointmentQuery.viewByMonth());
             }
 
         } catch (SQLException e) {
@@ -178,7 +192,11 @@ public class appointmentTable implements Initializable {
         }
     }
 
-
+    /**
+     * Sets table view to appointments in the current week, if there are no applicable appointments an error message is displayed
+     * @param event View by week radio button is selected
+     * @throws SQLException
+     */
     @FXML
     void viewWeekOnClick(ActionEvent event) throws SQLException {
         try {
@@ -197,8 +215,6 @@ public class appointmentTable implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
-
     /**
      * Initializes the appointment menu, populates tableview
      * @param url
@@ -223,8 +239,6 @@ public class appointmentTable implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 }
 

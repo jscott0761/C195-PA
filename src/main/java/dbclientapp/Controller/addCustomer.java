@@ -165,6 +165,5 @@ public class addCustomer implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 }

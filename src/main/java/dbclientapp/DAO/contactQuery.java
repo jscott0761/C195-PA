@@ -9,6 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class contactQuery {
+    /**
+     * Creates an observable list of all contacts in the sql database
+     * @return all contacts
+     * @throws SQLException
+     */
     public static ObservableList<Contact> getAllContacts() throws SQLException {
         ObservableList<Contact> contacts = FXCollections.observableArrayList();
         String sql = "SELECT * from contacts";

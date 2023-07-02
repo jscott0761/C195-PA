@@ -79,8 +79,12 @@ public class mainMenu {
      * @throws IOException
      */
     @FXML
-    void mainReportsOnClick(ActionEvent event) {
-
+    void mainReportsOnClick(ActionEvent event) throws IOException {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View/reports.fxml"));
+        stage.setTitle("Reports");
+        stage.setScene(new Scene(scene));
+        stage.show();
         }
 
     }
