@@ -14,7 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -24,6 +23,9 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for add appointment menu
+ */
 public class addAppointment implements Initializable {
 
     @FXML

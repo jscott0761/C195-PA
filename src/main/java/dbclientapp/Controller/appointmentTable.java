@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -21,7 +20,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+/**
+ * Controller class for appointment menu
+ */
 public class appointmentTable implements Initializable {
     @FXML
     private Button addAppointmentBtn;

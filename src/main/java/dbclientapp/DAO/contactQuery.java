@@ -7,7 +7,9 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * Class for database queries relating to contacts
+ */
 public class contactQuery {
     /**
      * Creates an observable list of all contacts in the sql database

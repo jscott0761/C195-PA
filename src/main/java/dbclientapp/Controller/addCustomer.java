@@ -15,14 +15,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+/**
+ * Controller class for add customer menu
+ */
 public class addCustomer implements Initializable {
 
     @FXML

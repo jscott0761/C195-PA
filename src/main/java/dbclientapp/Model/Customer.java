@@ -2,7 +2,9 @@ package dbclientapp.Model;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
+/**
+ * Creates Customer class and sets constructor
+ */
 public class Customer {
     private int Customer_ID;
     private String Customer_Name;

@@ -13,7 +13,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-
+/**
+ * Class for database queries relating to users
+ */
 public class userQuery {
     Stage stage;
     Parent scene;

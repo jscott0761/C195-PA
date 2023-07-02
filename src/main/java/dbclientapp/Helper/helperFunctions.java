@@ -2,6 +2,9 @@ package dbclientapp.Helper;
 
 import javafx.scene.control.Alert;
 
+/**
+ * class for helper functions to be used throughout application
+ */
 public class helperFunctions {
     /**
      * A method to quickly make error messages

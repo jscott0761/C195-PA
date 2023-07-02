@@ -2,7 +2,9 @@ package dbclientapp.Model;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
+/**
+ * Creates User class and sets constructor
+ */
 public class User {
     private int User_ID;
     private String User_Name;

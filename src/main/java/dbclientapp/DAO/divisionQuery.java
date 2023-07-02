@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
+/**
+ * Class for database queries relating to divisions
+ */
 public class divisionQuery {
     /**
      * Creates an Observable list of all divisions

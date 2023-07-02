@@ -1,5 +1,7 @@
 package dbclientapp.Model;
-
+/**
+ * Creates Contact class and sets constructor
+ */
 public class Contact {
     private int Contact_ID;
     private String Contact_Name;

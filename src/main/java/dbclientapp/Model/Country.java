@@ -2,7 +2,9 @@ package dbclientapp.Model;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
+/**
+ * Creates Country class and sets constructor
+ */
 public class Country {
     private int Country_ID;
     private String Country;

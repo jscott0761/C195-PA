@@ -3,6 +3,9 @@ package dbclientapp.Model;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * Creates Appointment class and sets constructor
+ */
 public class Appointment {
     private int Appointment_ID;
     private String Title;

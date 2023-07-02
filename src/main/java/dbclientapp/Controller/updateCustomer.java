@@ -26,7 +26,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+/**
+ * Controller class for update customer menu
+ */
 public class updateCustomer implements Initializable {
 
     @FXML

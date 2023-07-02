@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
+/**
+ * Class for database queries relating to customers
+ */
 public class customerQuery {
     /**
      * Builds an observable list of all Customers

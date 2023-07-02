@@ -2,7 +2,9 @@ package dbclientapp.Model;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
+/**
+ * Creates Division class and sets constructor
+ */
 public class Division {
     private int Division_ID;
     private String Division;

@@ -3,13 +3,15 @@ package dbclientapp.DAO;
 import dbclientapp.Model.Appointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * Class for database queries relating to appointments
+ */
 public class appointmentQuery {
     /**
      * Builds an observable list of all Appointments

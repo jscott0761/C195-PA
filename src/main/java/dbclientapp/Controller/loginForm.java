@@ -14,7 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -78,7 +77,7 @@ public class loginForm implements Initializable{
      */
     @FXML
     void loginOnClick(ActionEvent event) throws SQLException, IOException {
-        FileWriter filename = new FileWriter("src/main/java/dbclientapp/loginLog.", true);
+        FileWriter filename = new FileWriter("src/main/java/dbclientapp/login_activity.txt", true);
         PrintWriter outputFile = new PrintWriter(filename);
         ResourceBundle resourceBundle = ResourceBundle.getBundle("loginForm", Locale.getDefault());
         String username = loginUserName.getText();
@@ -101,7 +100,7 @@ public class loginForm implements Initializable{
     }
 
     /**
-     * Method to find appointments within 15 minutes of current local time and add them to an observable list, then display an alert if there is or isnt an appointment
+     * Method to find appointments within 15 minutes of current local time and add them to an observable list, then display an alert if there is or isn't an appointment
      * @throws SQLException
      */
     public static void appointmentInFifteen() throws SQLException {

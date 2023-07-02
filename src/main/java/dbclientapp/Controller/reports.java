@@ -18,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -27,7 +26,9 @@ import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+/**
+ * Controller class for reports menu
+ */
 public class reports implements Initializable {
 
     @FXML
@@ -174,8 +175,10 @@ public class reports implements Initializable {
 
     /**
      * Initialized reports page, sets options for comboBoxes as well as propertyValue for columns.
+     * LAMBDA III
      * TMQuantity Columns checks list of all appointments and increments a counter for appointment type each time it is found then returns the count as an object
      * This object can then be set to the table view column
+     * Lambda is used to set appointmentsByTMQuantity column which allows me to set the column equal to the variable count which is not a part of any class
      * @param url
      * @param resourceBundle
      */
